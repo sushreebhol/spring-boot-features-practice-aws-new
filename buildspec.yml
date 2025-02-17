@@ -5,20 +5,19 @@ phases:
     runtime-versions:
       java: corretto17
     commands:
-      curl -sL https://repos.fedoraproject.org/pkgs/maven/maven-3.6.3/maven-3.6.3-1.el7.x86_64.rpm > maven.rpm
-      sudo rpm -ivh maven.rpm
-      echo Maven installed successfully
-  
+      - echo install
+  pre_build:
+    commands:
+      - echo pre_build
   build:
     commands:
-      mvn clean package -DskipTests=true
-
+      - mvn package -DskipTests=true
+      - echo build
   post_build:
     commands:
-     cp target/*.jar $CODEBUILD_SRC_DIR/application.jar
-  
+      - echo post_build
+
 artifacts:
-  base-directory: .
   files:
-    - application.jar
+    - target/*.jar
   discard-paths: yes
